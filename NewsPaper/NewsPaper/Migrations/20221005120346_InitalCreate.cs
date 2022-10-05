@@ -6,6 +6,7 @@ namespace NewsPaper.Migrations
 {
     public partial class InitalCreate : Migration
     {
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -95,7 +96,7 @@ namespace NewsPaper.Migrations
                 table: "users",
                 column: "UserId");
         }
-
+        
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

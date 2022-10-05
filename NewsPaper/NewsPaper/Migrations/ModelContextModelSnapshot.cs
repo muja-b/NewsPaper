@@ -13,6 +13,7 @@ namespace NewsPaper.Migrations
     [DbContext(typeof(ModelContext))]
     partial class ModelContextModelSnapshot : ModelSnapshot
     {
+
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
@@ -21,7 +22,7 @@ namespace NewsPaper.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
+            
             modelBuilder.Entity("NewsPaper.Models.Article", b =>
                 {
                     b.Property<int>("Id")
@@ -147,7 +148,11 @@ namespace NewsPaper.Migrations
 
                     b.Navigation("FollowedUsers");
                 });
+                     
 #pragma warning restore 612, 618
         }
+        
+
     }
+    
 }
