@@ -4,10 +4,11 @@ namespace NewsPaper.Models
 {
     public class Article
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public User? Writer { get; set; }
-        public List<Comment>? Comments { get; set; }
+        public int ArticleId { get; set; }
+        public string? Title { get; set; }
+        public string Writer { get; set; }
+        public int UserId { get; set; }
+        public List<Comment> Commented { get; set; }
         public string Content { get; set; }
     }
 }

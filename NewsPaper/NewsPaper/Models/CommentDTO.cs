@@ -2,9 +2,9 @@
 {
     public class CommentDTO
     {
-        public int Id { get; set; }
-        public UserDTO? User { get; set; }
-        public ArticleDTO Article { get; set; }
+        public int? Id { get; set; }
+        public int UserId { get; set; }
+        public int ArticleId { get; set; }
         public string Content { get; set; }
     }
 }
