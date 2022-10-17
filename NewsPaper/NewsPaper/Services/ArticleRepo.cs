@@ -33,9 +33,12 @@ namespace NewsPaper.Services
         }
         
 
-        public async Task<IEnumerable<ArticleDTO>> GetArticles()
+        public async Task<IEnumerable<ArticleDTO>> GetArticles(int PageNum,int PageSize)
         {
-            var Articles =await _con.Articles.ToListAsync();
+            var Articles =await _con.Articles
+                .OrderBy(on => on.Title)
+                    .Skip((PageNum - 1) * PageSize)
+                        .Take(PageSize).ToListAsync();
             var ArtDTO =new List<ArticleDTO>();
             foreach (var article in Articles)
             {

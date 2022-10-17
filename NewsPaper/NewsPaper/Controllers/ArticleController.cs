@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NewsPaper.Models;
 using NewsPaper.Services;
@@ -10,24 +11,36 @@ namespace NewsPaper.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]    
+    [Authorize]
     public class ArticleController : ControllerBase
     {
         private readonly IArticleRepo _articleRepo;
         private readonly IUserRepo _userRepo;
-        private readonly IMapper _mapper;
-        public ArticleController(IArticleRepo article, IMapper mapper, IUserRepo userRepo)
+        private readonly IAuthRepo _Auth;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        
+        public ArticleController(IArticleRepo article, IAuthRepo Auth, IUserRepo userRepo,IHttpContextAccessor httpContextAccessor)
         {
             _articleRepo = article;
-            _mapper = mapper;
+            _Auth = Auth;
             _userRepo = userRepo;
+            _httpContextAccessor = httpContextAccessor;
         }
+
         // GET: api/<ValuesController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ArticleDTO>>> Get()
+        public async Task<ActionResult<IEnumerable<ArticleDTO>>> Get(int PageNum,int PageSize)
         {
-            var Artlist =await _articleRepo.GetArticles();
-            return Ok(Artlist);
+            string token = HttpContext.Request.Headers["Authorization"];
+            token = token.Substring(7);
+            var isValid=await _Auth.ValidateRefreshToken(token);
+            if (isValid)
+            {
+                var Artlist =await _articleRepo.GetArticles(PageNum,PageSize);
+                return Ok(Artlist);
+            }
+            return BadRequest("Invalid Token");
+
         }
 
         // GET api/<ValuesController>/5

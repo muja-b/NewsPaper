@@ -14,11 +14,13 @@ namespace NewsPaper.Controllers
 
         private readonly IUserRepo _userRepo;
         private readonly IArticleRepo _articleRepo;
+        private readonly IPasswordHasher _passwordHasher;
 
-        public UserController(IUserRepo userRepo,IArticleRepo articleRepo)
+        public UserController(IUserRepo userRepo,IArticleRepo articleRepo,IPasswordHasher passwordHasher)
         {
             _userRepo = userRepo;
             _articleRepo = articleRepo;
+            _passwordHasher = passwordHasher; 
         }
         
         // GET: api/<ValuesController>
@@ -43,6 +45,7 @@ namespace NewsPaper.Controllers
         {
         if(await _userRepo.UserExists(value.Name))
             return BadRequest();
+        value.Password=_passwordHasher.GeneratePasswordHash(value.Password);
         await _userRepo.addUsersAsync(value);
         await _userRepo.SaveChangesAsync();
         return Ok();

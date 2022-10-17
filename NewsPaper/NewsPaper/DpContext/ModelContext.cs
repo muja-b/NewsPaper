@@ -8,7 +8,7 @@ namespace NewsPaper.DpContext
         public DbSet<User> users { get; set; }
         public DbSet<Article> Articles { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<RefreshToken> refreshTokens { get; set; }
+        public DbSet<Token> Tokens { get; set; }
         public string DbPath { get; set; }
 
         public ModelContext()
